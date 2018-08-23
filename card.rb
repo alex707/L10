@@ -1,34 +1,28 @@
 # description of the card
 class Card
-  attr_reader :suit, :value, :cost, :addition
+  attr_reader :suit, :value, :cost
 
-  @@deck = []
+  @@deck = [] # rubocop:disable Style/ClassVars
 
-  def initialize(suit, value, cost, addition = nil)
+  def initialize(suit, value, cost)
     @suit = suit
     @value = value
     @cost = cost
-    @addition = addition
   end
 
-  def self.get_card
+  def self.take_card
     @@deck.shift
   end
 
   def self.fill_deck
-    ['♠', '♣', '♥', '♦'].product(
-      ['2', '3', '4', '5',
-      '6', '7', '8', '9',
-      '10', 'J', 'Q', 'K', 'A']
-    ).each do |s, v|
-      c = v.to_i.zero? ? 10 : v.to_i
-      @@deck << if v.to_s == 'A'
-                  Card.new(s, v, c, 1)
-                else
-                  Card.new(s, v, c)
-                end
+    ['♠', '♣', '♥', '♦'].product(%w[2 3 4 5 6 7 8 9 10 J Q K A]).each do |s, v|
+      c = if v.to_s == 'A'
+            11
+          else
+            v.to_i.zero? ? 10 : v.to_i
+          end
+      @@deck << Card.new(s, v, c)
     end
-
     @@deck.shuffle!
   end
 
@@ -37,7 +31,6 @@ class Card
   end
 
   def card
-    (@value.to_s + @suit.to_s).ljust(5, ' ') +
-    @cost.to_s + "#{'/'+@addition.to_s if @addition}"
+    (@value.to_s + @suit.to_s).ljust(5, ' ') + @cost.to_s
   end
 end
