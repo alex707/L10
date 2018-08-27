@@ -1,13 +1,15 @@
 # class for game logic
 class Game
+  attr_reader :player, :dealer
+
   def initialize(player, dealer, deck)
     @player = player
     @dealer = dealer
     @deck = deck
   end
 
-  # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity 
-  # rubocop:disable Metrics/MethodLength, Metrics/PerceivedComplexity 
+  # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/MethodLength, Metrics/PerceivedComplexity
   def define_winner
     dscore = @dealer.score
     pscore = @player.score
@@ -26,8 +28,8 @@ class Game
 
     winner
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity 
-  # rubocop:enable Metrics/MethodLength, Metrics/PerceivedComplexity 
+  # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/MethodLength, Metrics/PerceivedComplexity
 
   def fold
     @player.fold

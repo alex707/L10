@@ -1,18 +1,20 @@
 # class for formatting messages for game
 class View
-  def initialize(player, dealer, game)
-    @player = player
-    @dealer = dealer
+  def initialize(game)
     @game = game
   end
 
   def show_cards(final = false, str = '')
+    dcards = @game.dealer.face_value
+    dcards = Array.new(dcards.size, '**') unless final
+    dcards = dcards.join(', ')
     "\n#{str}\n" \
-    "Dealers cards:  #{Array.new(@dealer.face_value.size, '**').join(', ')}\n" \
-    "Dealers cards:  #{@dealer.face_value.join(', ')}\n" \
-    "#{"Dealers score:  #{@dealer.score}" if final}\n" \
-    "Your cards:     #{@player.face_value.join(', ')}\n" \
-    "Your score:     #{@player.score}\n\n"
+    "#{if final
+         "Dealers cards:  #{dcards}\n" \
+      "Dealers score:  #{@game.dealer.score}"
+       end}\n" \
+    "Your cards:     #{@game.player.face_value.join(', ')}\n" \
+    "Your score:     #{@game.player.score}\n\n"
   end
 
   def check_action(gived = false)
@@ -23,8 +25,8 @@ class View
   end
 
   def end_game
-    "\nYour cash: $#{@player.cash}\n" \
-    "Thanks for game, #{@player.name}\n" \
+    "\nYour cash: $#{@game.player.cash}\n" \
+    "Thanks for game, #{@game.player.name}\n" \
     "Play again?\n" \
     "  1 - yes\n"
   end
@@ -34,11 +36,11 @@ class View
   end
 
   def congrats(player)
-    "\nWinner: #{player.name}!\n"
+    "\nWinner: #{player.nil? ? 'none' : player.name}!\n"
   end
 
   def start_game
-    "Your cash: $#{@player.cash}\n" \
+    "Your cash: $#{@game.player.cash}\n" \
     "Game started...\n\n"
   end
 end

@@ -16,7 +16,7 @@ while playing
   deck = Deck.new
 
   game = Game.new(player, dealer, deck)
-  view = View.new(player, dealer, game)
+  view = View.new(game)
 
   puts view.start_game
 
